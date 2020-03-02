@@ -1,0 +1,20 @@
+{
+    "web": {
+        "awscloudformation": {
+            "AuthRoleName": "amplify-myauthap-web-224429-authRole",
+            "UnauthRoleArn": "arn:aws:iam::845042252401:role/amplify-myauthap-web-224429-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::845042252401:role/amplify-myauthap-web-224429-authRole",
+            "Region": "ap-south-1",
+            "DeploymentBucketName": "amplify-myauthap-web-224429-deployment",
+            "UnauthRoleName": "amplify-myauthap-web-224429-unauthRole",
+            "StackName": "amplify-myauthap-web-224429",
+            "StackId": "arn:aws:cloudformation:ap-south-1:845042252401:stack/amplify-myauthap-web-224429/a70f62e0-5984-11ea-af89-0603bc2e8e1c",
+            "AmplifyAppId": "d3lf4vk6n7au77"
+        },
+        "categories": {
+            "auth": {
+                "myauthap745fd5cc": {}
+            }
+        }
+    }
+}
