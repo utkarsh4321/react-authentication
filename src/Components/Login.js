@@ -2,6 +2,9 @@ import React, { Component } from "react";
 import styled from "styled-components";
 import * as colors from "./Vriables";
 import { NavLink } from "react-router-dom";
+import { notification, Spin } from "antd";
+import Amplify, { Auth } from "aws-amplify";
+import { Redirect } from "react-router-dom";
 
 const Wrapper = styled.section`
   width: 100%;
@@ -40,16 +43,81 @@ const InsiderDiv = styled.div`
   width: 100%;
 `;
 export default class Login extends Component {
+  state = {
+    email: "",
+    Password: "",
+    loading: false
+  };
+  onChangeHandler = e => {
+    this.setState({ [e.target.name]: e.target.value });
+  };
+  onSubmitHandler = () => {
+    const { email, Password } = this.state;
+    this.setState({ loading: true });
+    if (email.trim().length > 0 && Password.trim().length > 0) {
+      Auth.signIn({
+        username: email, // Required, the username
+        password: Password // Optional, the password
+      })
+        .then(user => {
+          const { history, location } = this.props;
+          const { from } = location.state || {
+            from: {
+              pathname: "/dashboard"
+            }
+          };
+
+          localStorage.setItem(
+            "AUTH_USER_TOKEN_KEY",
+            user.signInUserSession.accessToken.jwtToken
+          );
+
+          notification.success({
+            message: "Succesfully logged in!",
+            description: "Logged in successfully, Redirecting you in a few!",
+            placement: "topRight",
+            duration: 1.5
+          });
+
+          history.push(from);
+        })
+        .catch(err => {
+          notification.error({
+            message: "Error",
+            description: err.message,
+            placement: "topRight"
+          });
+
+          console.log(err);
+
+          this.setState({ loading: false });
+        });
+    }
+  };
   render() {
+    const { email, Password, loading } = this.state;
     return (
       <Wrapper>
         <h1>Login</h1>
         <Div>
-          <Input placeholder="Email" />
-          <Input placeholder="Password" />
+          <Input
+            placeholder="Email"
+            name="email"
+            value={email}
+            onChange={this.onChangeHandler}
+          />
+          <Input
+            placeholder="Password"
+            name="Password"
+            value={Password}
+            onChange={this.onChangeHandler}
+            type="password"
+          />
           <InsiderDiv>
             <h5>Forgot Password</h5>
-            <Button>Login</Button>
+            <Button onClick={this.onSubmitHandler}>
+              {loading ? <Spin /> : "Login"}
+            </Button>
           </InsiderDiv>
           <h5
             style={{
