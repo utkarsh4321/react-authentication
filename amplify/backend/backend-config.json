@@ -1,9 +1,10 @@
 {
 	"auth": {
-		"myauthappfeb012f1": {
+		"myauthapp41347a73": {
 			"service": "Cognito",
 			"providerPlugin": "awscloudformation",
-			"dependsOn": []
+			"dependsOn": [],
+			"customAuth": false
 		}
 	}
 }

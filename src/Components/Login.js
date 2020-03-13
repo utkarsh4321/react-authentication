@@ -5,6 +5,7 @@ import { NavLink } from "react-router-dom";
 import { notification, Spin } from "antd";
 import Amplify, { Auth } from "aws-amplify";
 import { Redirect } from "react-router-dom";
+import { withOAuth } from "aws-amplify-react";
 
 const Wrapper = styled.section`
   width: 100%;
@@ -42,7 +43,7 @@ const InsiderDiv = styled.div`
   align-items: center;
   width: 100%;
 `;
-export default class Login extends Component {
+class Login extends Component {
   state = {
     email: "",
     Password: "",
@@ -79,7 +80,7 @@ export default class Login extends Component {
             duration: 1.5
           });
 
-          history.push(from);
+          history.push("/dashboard");
         })
         .catch(err => {
           notification.error({
@@ -95,6 +96,7 @@ export default class Login extends Component {
     }
   };
   render() {
+    console.log(this.props);
     const { email, Password, loading } = this.state;
     return (
       <Wrapper>
@@ -113,6 +115,9 @@ export default class Login extends Component {
             onChange={this.onChangeHandler}
             type="password"
           />
+          <button onClick={() => Auth.federatedSignIn({ provider: "Google" })}>
+            Open Google
+          </button>
           <InsiderDiv>
             <h5>Forgot Password</h5>
             <Button onClick={this.onSubmitHandler}>
@@ -134,3 +139,4 @@ export default class Login extends Component {
     );
   }
 }
+export default withOAuth(Login);

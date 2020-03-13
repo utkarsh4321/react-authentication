@@ -13,7 +13,9 @@
         },
         "categories": {
             "auth": {
-                "myauthappfeb012f1": {}
+                "myauthapp41347a73": {
+                    "hostedUIProviderCreds": "[{\"ProviderName\":\"Google\",\"client_id\":\"261918966706-89ai7sma1vl3uvoej9j8i2pdto1bplus.apps.googleusercontent.com\",\"client_secret\":\"PtgBqs_HA0TScUtVR-4l95hi\"}]"
+                }
             }
         }
     }
