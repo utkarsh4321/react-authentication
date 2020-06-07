@@ -3,11 +3,10 @@ import styled from "styled-components";
 import * as colors from "./Vriables";
 import { NavLink, Redirect } from "react-router-dom";
 
-import Amplify, { Auth } from "aws-amplify";
+import { Auth } from "aws-amplify";
 import {
   Form,
   Input,
-  Icon,
   Button,
   notification,
   Popover,
@@ -16,17 +15,11 @@ import {
   Row,
   Checkbox,
   Layout,
-  Typography
+  Typography,
 } from "antd";
-import {
-  UserOutlined,
-  LockOutlined,
-  PhoneOutlined,
-  DownloadOutlined
-} from "@ant-design/icons";
+import { UserOutlined, LockOutlined, PhoneOutlined } from "@ant-design/icons";
 const passwordValidator = require("password-validator");
-// import awsconfig from "../aws-exports";
-// Amplify.configure(awsconfig);
+
 const schema = new passwordValidator();
 
 schema
@@ -57,50 +50,26 @@ const Div = styled.div`
   box-shadow:0 0px 2px rgba(0,0,0,.5);
   padding: 1rem;
 `;
-// const Input = styled.input`
-//   width: 100%;
-//   padding: 10px 14px;
-//   border: 1px solid ${colors.primaryColor};
-//   border-radius: 4px;
-//   display: inline;
-//   margin: 0;
-//   &:not(last-child) {
-//     margin-bottom: 1rem;
-//   }
-// `;
-// const Button = styled.button`
-//   background: palevioletred;
-//   color: #fff;
-//   border: none;
-//   border-radius: 3px;
-//   padding: 0.9rem 1.3rem;
-//   width: 50%;
-// `;
-// const InsiderDiv = styled.div`
-//   display: flex;
-//   flex-direction: column;
-//   align-items: center;
-// `;
 
 const layout = {
   labelCol: {
-    span: 4
+    span: 4,
   },
   wrapperCol: {
-    span: 16
-  }
+    span: 16,
+  },
 };
 const tailLayout = {
   wrapperCol: {
     offset: 4,
-    span: 16
-  }
+    span: 16,
+  },
 };
 const anotherLayout = {
   wrapperCol: {
     lg: { offset: 4, span: 16 },
-    sm: { span: 12 }
-  }
+    sm: { span: 12 },
+  },
 };
 const { Content } = Layout;
 const { Title } = Typography;
@@ -112,7 +81,7 @@ class Signup extends Component {
     phoneNumber: 0,
     confirmDirty: false,
     redirect: false,
-    loading: false
+    loading: false,
   };
   gotoSignIn = () => {
     this.props.onStateChange("signIn", {});
@@ -126,26 +95,19 @@ class Signup extends Component {
       value[2].trim().length > 0 &&
       value[3].trim().length) ||
     alert("please fill all the field");
-  onSubmitHandler = e => {
-    console.log("hiii how are you");
+  onSubmitHandler = (e) => {
     const { username, email, password, confirm_password } = this.state;
-    console.log(this.state);
     if (this.valueChecker(username, email, password, confirm_password)) {
-      console.log("every thing ok please got");
+      // console.log("every thing ok please got");
     } else {
-      console.log("Please fiil all the filed");
+      // console.log("Please fiil all the filed");
     }
   };
-  onConfirmBlur = e => {
+  onConfirmBlur = (e) => {
     const { value } = e.target;
     this.setState({ confirmDirty: this.state.confirmDirty || !!value });
   };
-  // onValidateFirstPassword = (rule, value) => {
-  //   console.log(value);
-  //   // let value = e.target.value;
-  //   // const validationRuleError = schema.validate(value, { list: true });
-  //   // console.log(validationRuleError);
-  // };
+
   render() {
     const { redirect, loading } = this.state;
     const title = "Password Policy";
@@ -161,9 +123,15 @@ class Signup extends Component {
         </ul>
       </React.Fragment>
     );
-    const onFinish = values => {
-      console.log("Success:", values);
-      let { email, password, confirm_password, phoneNumber } = values;
+    const phoneTitle = "PhoneNumber Policy";
+    const phoneContent = (
+      <div>
+        <div>Phone number must contain country code</div>
+        <div>Ex- +919034002389</div>
+      </div>
+    );
+    const onFinish = (values) => {
+      let { email, password, phoneNumber } = values;
       this.setState({ loading: true });
 
       Auth.signUp({
@@ -171,8 +139,8 @@ class Signup extends Component {
         password,
         attributes: {
           email: email,
-          phone_number: phoneNumber
-        }
+          phone_number: phoneNumber,
+        },
       })
         .then(() => {
           notification.success({
@@ -183,25 +151,24 @@ class Signup extends Component {
             duration: 2,
             onClose: () => {
               this.setState({ redirect: true });
-            }
+            },
           });
           this.setState({ email: email });
         })
-        .catch(err => {
+        .catch((err) => {
           notification.error({
             message: err.message,
             description: "Error signing up user",
             placement: "topRight",
-            duration: 2
+            duration: 2,
           });
           this.setState({ loading: false });
         });
     };
 
-    const onFinishFailed = errorInfo => {
+    const onFinishFailed = (errorInfo) => {
       console.log("Failed:", errorInfo);
     };
-    console.log(this.props);
     return (
       <Content>
         <Row align="center">
@@ -212,7 +179,7 @@ class Signup extends Component {
                 {...layout}
                 name="basic"
                 initialValues={{
-                  remember: true
+                  remember: true,
                 }}
                 onFinish={onFinish}
                 onFinishFailed={onFinishFailed}
@@ -224,8 +191,8 @@ class Signup extends Component {
                   rules={[
                     {
                       required: true,
-                      message: "Please input your email!"
-                    }
+                      message: "Please input your email!",
+                    },
                   ]}
                 >
                   <Input prefix={<UserOutlined />} placeholder="Email" />
@@ -236,37 +203,45 @@ class Signup extends Component {
                   rules={[
                     {
                       required: true,
-                      message: "Please input your phone number!"
-                    }
+                      message: "Please input your phone number!",
+                    },
                   ]}
                 >
-                  <Input
-                    prefix={<PhoneOutlined />}
-                    placeholder="Phone number"
-                  />
+                  <Popover
+                    content={phoneContent}
+                    title={phoneTitle}
+                    placement="right"
+                    trigger="focus"
+                  >
+                    <Input
+                      prefix={<PhoneOutlined />}
+                      placeholder="Phone number"
+                    />
+                  </Popover>
                 </Form.Item>
+
                 <Form.Item
                   label="Password"
                   name="password"
                   rules={[
                     {
                       required: true,
-                      message: "Please input your password!"
-                    }
+                      message: "Please input your password!",
+                    },
                   ]}
                 >
-                  {/* <Popover
-                    placement="right"
-                    title={title}
+                  <Popover
                     content={passwordPolicyContent}
+                    title={title}
                     trigger="focus"
-                  > */}
-                  <Input.Password
-                    prefix={<LockOutlined />}
-                    type="password"
-                    placeholder="Password"
-                  />
-                  {/* </Popover> */}
+                  >
+                    <Input.Password
+                      prefix={<LockOutlined />}
+                      type="password"
+                      placeholder="Password"
+                    />
+                    {/* </Popover> */}
+                  </Popover>
                 </Form.Item>
                 <Form.Item
                   label="Confirm password"
@@ -276,30 +251,8 @@ class Signup extends Component {
                   rules={[
                     {
                       required: true,
-                      message: "Please confirm your password!"
-                    }
-                    // ({ getFieldValue }) => ({
-                    //   validator(rule, value) {
-                    //     // console.log(value);
-                    //     // console.log(getFieldValue("dependencies"));
-                    //     // if (this.state.password) {
-                    //     //   if (
-                    //     //     getFieldValue("confirm_password") ===
-                    //     //     this.state.password
-                    //     //   ) {
-                    //     //     return Promise.resolve();
-                    //     //   } else {
-                    //     //     return Promise.reject(
-                    //     //       "The two passwords that you entered do not match!"
-                    //     //     );
-                    //     //   }
-                    //     // } else {
-                    //     //   return Promise.reject(
-                    //     //     "Please first enter the password!"
-                    //     //   );
-                    //     // }
-                    //   }
-                    // })
+                      message: "Please confirm your password!",
+                    },
                   ]}
                 >
                   <Input.Password
@@ -356,7 +309,7 @@ class Signup extends Component {
                 <Redirect
                   to={{
                     pathname: "/verify-code",
-                    search: `?email=${this.state.email}`
+                    search: `?email=${this.state.email}`,
                   }}
                 />
               )}

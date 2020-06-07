@@ -7,14 +7,12 @@ import {
   Spin,
   Col,
   Row,
-  Checkbox,
   Layout,
-  Typography
 } from "antd";
 import * as colors from "./Vriables";
-import { NavLink, Redirect } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import styled from "styled-components";
-import Amplify, { Auth } from "aws-amplify";
+import { Auth } from "aws-amplify";
 
 const Div = styled.div`
 // display:flex;
@@ -27,26 +25,20 @@ const Div = styled.div`
 `;
 const layout = {
   labelCol: {
-    span: 4
+    span: 4,
   },
   wrapperCol: {
-    span: 16
-  }
+    span: 16,
+  },
 };
-const tailLayout = {
-  wrapperCol: {
-    offset: 4,
-    span: 16
-  }
-};
+
 const anotherLayout = {
   wrapperCol: {
     lg: { offset: 4, span: 16 },
-    sm: { span: 12 }
-  }
+    sm: { span: 12 },
+  },
 };
 const { Content } = Layout;
-const { Title } = Typography;
 export default class ConfirmEmail extends Component {
   state = {
     username: "",
@@ -55,7 +47,7 @@ export default class ConfirmEmail extends Component {
     confirmationCode: "",
     error: "",
     resendCode: false,
-    resendLoading: false
+    resendLoading: false,
   };
   componentDidMount() {
     if (this.props.location.search) {
@@ -65,7 +57,7 @@ export default class ConfirmEmail extends Component {
       this.setState({ username });
     }
   }
-  onChangeHandler = e => {
+  onChangeHandler = (e) => {
     this.setState({ confirmationCode: e.target.value });
   };
   onResendVerificationCode = () => {
@@ -73,11 +65,10 @@ export default class ConfirmEmail extends Component {
     this.setState({ resendLoading: true });
     Auth.resendSignUp(username)
       .then(() => {
-        console.log("code resent successfully");
         this.setState({ resendCode: true });
         this.setState({ resendLoading: false });
       })
-      .catch(e => {
+      .catch((e) => {
         console.log(e);
         this.setState({ resendLoading: false });
       });
@@ -88,17 +79,15 @@ export default class ConfirmEmail extends Component {
       redirect,
       username,
       resendCode,
-      resendLoading
+      resendLoading,
     } = this.state;
-    const onFinish = values => {
-      console.log("Success:", values);
+    const onFinish = (values) => {
       let { confirmationcode } = values;
       this.setState({ loading: true });
       Auth.confirmSignUp(username, confirmationcode, {
-        // Optional. Force user confirmation irrespective of existing alias. By default set to True.
-        forceAliasCreation: true
+        forceAliasCreation: true,
       })
-        .then(data => {
+        .then((data) => {
           notification.success({
             message: data,
             description:
@@ -107,22 +96,22 @@ export default class ConfirmEmail extends Component {
             duration: 2,
             onClose: () => {
               this.setState({ redirect: true });
-            }
+            },
           });
           this.setState({ confirmationCode: confirmationcode });
         })
-        .catch(err => {
+        .catch((err) => {
           notification.error({
             message: err,
             description: "Email verification fail",
             placement: "topRight",
-            duration: 2
+            duration: 2,
           });
           this.setState({ loading: false });
         });
     };
 
-    const onFinishFailed = errorInfo => {
+    const onFinishFailed = (errorInfo) => {
       console.log("Failed:", errorInfo);
     };
     return (
@@ -136,11 +125,10 @@ export default class ConfirmEmail extends Component {
                 {...layout}
                 name="basic"
                 initialValues={{
-                  remember: true
+                  remember: true,
                 }}
                 onFinish={onFinish}
                 onFinishFailed={onFinishFailed}
-                // onSubmit={this.onSubmitHandler}
               >
                 <Form.Item
                   label="Confirmation code"
@@ -148,8 +136,8 @@ export default class ConfirmEmail extends Component {
                   rules={[
                     {
                       required: true,
-                      message: "please enter your confirmation code!"
-                    }
+                      message: "please enter your confirmation code!",
+                    },
                   ]}
                 >
                   <Input placeholder="Code" />
@@ -189,7 +177,7 @@ export default class ConfirmEmail extends Component {
               {redirect && (
                 <Redirect
                   to={{
-                    pathname: "/login"
+                    pathname: "/login",
                   }}
                 />
               )}

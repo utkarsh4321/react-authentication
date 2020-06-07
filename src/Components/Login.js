@@ -3,8 +3,8 @@ import styled from "styled-components";
 import * as colors from "./Vriables";
 import { NavLink } from "react-router-dom";
 import { notification, Spin } from "antd";
-import Amplify, { Auth } from "aws-amplify";
-import { Redirect } from "react-router-dom";
+import { Auth } from "aws-amplify";
+
 import { withOAuth } from "aws-amplify-react";
 
 const Wrapper = styled.section`
@@ -47,9 +47,9 @@ class Login extends Component {
   state = {
     email: "",
     Password: "",
-    loading: false
+    loading: false,
   };
-  onChangeHandler = e => {
+  onChangeHandler = (e) => {
     this.setState({ [e.target.name]: e.target.value });
   };
   onSubmitHandler = () => {
@@ -58,15 +58,10 @@ class Login extends Component {
     if (email.trim().length > 0 && Password.trim().length > 0) {
       Auth.signIn({
         username: email, // Required, the username
-        password: Password // Optional, the password
+        password: Password, // Optional, the password
       })
-        .then(user => {
-          const { history, location } = this.props;
-          const { from } = location.state || {
-            from: {
-              pathname: "/dashboard"
-            }
-          };
+        .then((user) => {
+          const { history } = this.props;
 
           localStorage.setItem(
             "AUTH_USER_TOKEN_KEY",
@@ -77,16 +72,16 @@ class Login extends Component {
             message: "Succesfully logged in!",
             description: "Logged in successfully, Redirecting you in a few!",
             placement: "topRight",
-            duration: 1.5
+            duration: 1.5,
           });
 
           history.push("/dashboard");
         })
-        .catch(err => {
+        .catch((err) => {
           notification.error({
             message: "Error",
             description: err.message,
-            placement: "topRight"
+            placement: "topRight",
           });
 
           console.log(err);
@@ -96,7 +91,6 @@ class Login extends Component {
     }
   };
   render() {
-    console.log(this.props);
     const { email, Password, loading } = this.state;
     return (
       <Wrapper>
@@ -129,7 +123,7 @@ class Login extends Component {
               textAlign: "center",
               margin: 0,
               padding: 0,
-              marginTop: 10
+              marginTop: 10,
             }}
           >
             Don't have account? <NavLink to="/signup">Signup</NavLink>

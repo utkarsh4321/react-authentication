@@ -1,20 +1,20 @@
 {
     "web": {
         "awscloudformation": {
-            "AuthRoleName": "amplify-myauthapp-web-124051-authRole",
-            "UnauthRoleArn": "arn:aws:iam::845042252401:role/amplify-myauthapp-web-124051-unauthRole",
-            "AuthRoleArn": "arn:aws:iam::845042252401:role/amplify-myauthapp-web-124051-authRole",
+            "AuthRoleName": "amplify-react-authentication-web-181250-authRole",
+            "UnauthRoleArn": "arn:aws:iam::845042252401:role/amplify-react-authentication-web-181250-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::845042252401:role/amplify-react-authentication-web-181250-authRole",
             "Region": "ap-south-1",
-            "DeploymentBucketName": "amplify-myauthapp-web-124051-deployment",
-            "UnauthRoleName": "amplify-myauthapp-web-124051-unauthRole",
-            "StackName": "amplify-myauthapp-web-124051",
-            "StackId": "arn:aws:cloudformation:ap-south-1:845042252401:stack/amplify-myauthapp-web-124051/ebd54aa0-610b-11ea-9d16-0a57edc12e34",
-            "AmplifyAppId": "d90wrui0yd5z1"
+            "DeploymentBucketName": "amplify-react-authentication-web-181250-deployment",
+            "UnauthRoleName": "amplify-react-authentication-web-181250-unauthRole",
+            "StackName": "amplify-react-authentication-web-181250",
+            "StackId": "arn:aws:cloudformation:ap-south-1:845042252401:stack/amplify-react-authentication-web-181250/77c57a10-a8bc-11ea-ac72-028f38a10716",
+            "AmplifyAppId": "d1r6r6hihub1qk"
         },
         "categories": {
             "auth": {
-                "myauthapp41347a73": {
-                    "hostedUIProviderCreds": "[{\"ProviderName\":\"Google\",\"client_id\":\"261918966706-89ai7sma1vl3uvoej9j8i2pdto1bplus.apps.googleusercontent.com\",\"client_secret\":\"PtgBqs_HA0TScUtVR-4l95hi\"}]"
+                "reactauthenticationa5fa3107": {
+                    "hostedUIProviderCreds": "[{\"ProviderName\":\"Google\",\"client_id\":\"261918966706-89ai7sma1vl3uvoej9j8i2pdto1bplus.apps.googleusercontent.com\",\"client_secret\":\"1aTSSzIB8i6kWoC8NV2m2MOa\"}]"
                 }
             }
         }

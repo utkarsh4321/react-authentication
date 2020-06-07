@@ -121,7 +121,7 @@ Resources:
   # Created to allow the UserPool SMS Config to publish via the Simple Notification Service during MFA Process
     Type: AWS::IAM::Role
     Properties:
-      RoleName: !If [ShouldNotCreateEnvResources, 'myauth41347a73_sns-role', !Join ['',[ 'sns', !Select [3, !Split ['-', !Ref 'AWS::StackName']], '-', !Ref env]]]
+      RoleName: !If [ShouldNotCreateEnvResources, 'reactaa5fa3107_sns-role', !Join ['',[ 'sns', !Select [3, !Split ['-', !Ref 'AWS::StackName']], '-', !Ref env]]]
       AssumeRolePolicyDocument: 
         Version: "2012-10-17"
         Statement: 
@@ -133,10 +133,10 @@ Resources:
               - "sts:AssumeRole"
             Condition: 
               StringEquals:
-                sts:ExternalId: myauth41347a73_role_external_id
+                sts:ExternalId: reactaa5fa3107_role_external_id
       Policies: 
         - 
-          PolicyName: myauth41347a73-sns-policy
+          PolicyName: reactaa5fa3107-sns-policy
           PolicyDocument: 
             Version: "2012-10-17"
             Statement: 
@@ -184,7 +184,7 @@ Resources:
       SmsVerificationMessage: !Ref smsVerificationMessage
       SmsConfiguration: 
         SnsCallerArn: !GetAtt SNSRole.Arn
-        ExternalId: myauth41347a73_role_external_id
+        ExternalId: reactaa5fa3107_role_external_id
     
   
   UserPoolClientWeb:
@@ -192,7 +192,7 @@ Resources:
   # Depends on UserPool for ID reference
     Type: "AWS::Cognito::UserPoolClient"
     Properties:
-      ClientName: myauth41347a73_app_clientWeb
+      ClientName: reactaa5fa3107_app_clientWeb
       
       RefreshTokenValidity: !Ref userpoolClientRefreshTokenValidity
       UserPoolId: !Ref UserPool
@@ -202,7 +202,7 @@ Resources:
   # Depends on UserPool for ID reference
     Type: "AWS::Cognito::UserPoolClient"
     Properties:
-      ClientName: myauth41347a73_app_client
+      ClientName: reactaa5fa3107_app_client
       
       GenerateSecret: !Ref userpoolClientGenerateSecret
       RefreshTokenValidity: !Ref userpoolClientRefreshTokenValidity
@@ -267,7 +267,7 @@ Resources:
   # Marked as depending on UserPoolClientRole for easier to understand CFN sequencing
     Type: 'AWS::IAM::Policy'
     Properties:
-      PolicyName: myauth41347a73_userpoolclient_lambda_iam_policy
+      PolicyName: reactaa5fa3107_userpoolclient_lambda_iam_policy
       Roles: 
         - !Ref UserPoolClientRole
       PolicyDocument:
@@ -284,7 +284,7 @@ Resources:
   # Marked as depending on UserPoolClientLambdaPolicy for easier to understand CFN sequencing
     Type: 'AWS::IAM::Policy'
     Properties:
-      PolicyName: myauth41347a73_userpoolclient_lambda_log_policy
+      PolicyName: reactaa5fa3107_userpoolclient_lambda_log_policy
       Roles: 
         - !Ref UserPoolClientRole
       PolicyDocument:
@@ -671,7 +671,7 @@ Resources:
   # Always created
     Type: AWS::Cognito::IdentityPool
     Properties: 
-      IdentityPoolName: !If [ShouldNotCreateEnvResources, 'myauthapp41347a73_identitypool_41347a73', !Join ['',['myauthapp41347a73_identitypool_41347a73', '__', !Ref env]]]
+      IdentityPoolName: !If [ShouldNotCreateEnvResources, 'reactauthenticationa5fa3107_identitypool_a5fa3107', !Join ['',['reactauthenticationa5fa3107_identitypool_a5fa3107', '__', !Ref env]]]
       
       CognitoIdentityProviders:
         - ClientId:  !Ref UserPoolClient

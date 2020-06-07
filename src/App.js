@@ -1,15 +1,8 @@
 import React from "react";
-import logo from "./logo.svg";
 import Jwt_Decode from "jwt-decode";
 // import "./App.css";
 import "antd/dist/antd.css";
-import {
-  BrowserRouter as Router,
-  Route,
-  Link,
-  Switch,
-  Redirect
-} from "react-router-dom";
+import { Route, Switch, Redirect, withRouter } from "react-router-dom";
 
 // import Amplify, { Auth, Hub } from "aws-amplify";
 import awsconfig from "./aws-exports";
@@ -25,64 +18,50 @@ import Amplify, { Auth, Hub } from "aws-amplify";
 
 Amplify.configure(awsconfig);
 // Storage.configure({ level: "private" });
-function checkSessionToken() {
-  Auth.currentSession()
-    .then(data => {
-      console.log(data);
-      const { accessToken } = data;
-      console.log(accessToken);
-      if (accessToken.jwtToken) {
-        localStorage.setItem("refreshToken", accessToken.jwtToken);
-      }
 
-      // console.log(exp);
-      // console.log(
-      //   JSON.parse(localStorage.getItem("AUTH_USER_TOKEN_KEY")) ===
-      //     accessToken.jwtToken
-      // );
-    })
-    .catch(err => console.log(err));
-}
 const checkAuth = () => {
   let refershToken = localStorage.getItem("refreshToken");
   let localToken = localStorage.getItem("AUTH_USER_TOKEN_KEY");
-  if (localToken) {
-    let { exp } = Jwt_Decode(refershToken);
+  if (localToken || refershToken) {
+    if (localToken) {
+      let { exp } = Jwt_Decode(localToken);
 
-    if (!localToken || !refershToken) {
-      console.log("token not presente");
-      return false;
-    }
-    console.log(exp);
-    console.log(new Date().getTime() / 1000);
-    if (exp < new Date().getTime() / 1000) {
-      console.log("token expire");
-      return false;
-    }
-    console.log("now it will return something");
-    return true;
-  }
-  if (!localToken) {
-    let { exp } = Jwt_Decode(refershToken);
+      if (!localToken || !refershToken) {
+        return false;
+      }
 
-    if (!refershToken) {
-      return false;
+      if (exp < new Date().getTime() / 1000) {
+        return false;
+      }
+
+      return true;
     }
-    if (exp < new Date().getTime() / 1000) {
-      console.log("token expire");
-      return false;
+    if (!localToken) {
+      if (!refershToken) {
+        return false;
+      } else {
+        let { exp } = Jwt_Decode(refershToken);
+        if (exp < new Date().getTime() / 1000) {
+          return false;
+        }
+        return true;
+      }
+      // return auth;
     }
-    return true;
-    // return auth;
+  } else {
+    let oauthRedirect = JSON.parse(
+      localStorage.getItem("amplify-signin-with-hostedUI")
+    );
+    return oauthRedirect;
   }
 };
 
-const AuthRoute = ({ component: Component, ...rest }) => (
+const AuthRoute = ({ component: Component, user, signOutHandler, ...rest }) => (
   <Route
     {...rest}
-    render={props =>
+    render={(props) =>
       checkAuth() ? (
-        <Component {...props} />
+        <Component {...props} user={user} handler={signOutHandler} />
       ) : (
         <Redirect to={{ pathname: "/login" }} />
       )
@@ -94,44 +73,39 @@ class App extends React.Component {
   state = {
     authStatus: "",
     user: null,
-    customState: null
+    customState: null,
   };
   componentDidMount() {
     Hub.listen("auth", ({ payload: { event, data } }) => {
-      console.log(event, "this is ecent");
       switch (event) {
         case "signIn":
           Auth.currentSession()
-            .then(data => {
-              console.log(data);
+            .then((data) => {
               const { accessToken } = data;
-              console.log(accessToken);
+
               if (accessToken.jwtToken) {
                 localStorage.setItem("refreshToken", accessToken.jwtToken);
               }
-
-              // console.log(exp);
-              // console.log(
-              //   JSON.parse(localStorage.getItem("AUTH_USER_TOKEN_KEY")) ===
-              //     accessToken.jwtToken
-              // );
             })
-            .catch(err => console.log(err));
+            .catch((err) => console.log(err));
           this.setState({ user: data });
           break;
         case "signOut":
-          console.log("user is signout");
           this.setState({ user: null });
           break;
         case "customOAuthState":
           this.setState({ customState: data });
+          break;
         case "signIn_failure":
           this.setState({ user: null });
+          break;
+        default:
+          console.log("sign out");
       }
     });
 
     Auth.currentAuthenticatedUser()
-      .then(user => this.setState({ user }))
+      .then((user) => this.setState({ user }))
       .catch(() => console.log("Not signed in"));
   }
 
@@ -139,22 +113,21 @@ class App extends React.Component {
     Auth.signOut()
       .then(() => {
         this.setState({ user: null });
+        delete localStorage["AUTH_USER_TOKEN_KEY"];
+        if (!localStorage.getItem("amplify-signin-with-hostedUI")) {
+          this.props.history.push("/");
+        }
       })
-      .catch(e => {
+      .catch((e) => {
         console.log(e);
       });
   };
 
   render() {
-    const { authStatus, user } = this.state;
-
-    // console.log(user.pool);
     return (
-      <Router>
-        {/* <Signup /> */}
-        {/* <Authenticator usernameAttributes="email" /> */}
+      <div>
         <Navbar />
-        {user ? <button onClick={this.signout}>Sign out</button> : null}
+
         <Switch>
           <Route exact path="/" component={Home} />
         </Switch>
@@ -168,11 +141,16 @@ class App extends React.Component {
           <Route path="/verify-code" component={ConfirmCode} />
         </Switch>
         <Switch>
-          <AuthRoute path="/dashboard" component={UserDashboard} />
+          <AuthRoute
+            path="/dashboard"
+            component={UserDashboard}
+            user={this.state.user}
+            signOutHandler={this.signout}
+          />
         </Switch>
-      </Router>
+      </div>
     );
   }
 }
 
-export default App;
+export default withRouter(App);

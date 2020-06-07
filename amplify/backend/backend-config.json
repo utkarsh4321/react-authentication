@@ -1,6 +1,6 @@
 {
 	"auth": {
-		"myauthapp41347a73": {
+		"reactauthenticationa5fa3107": {
 			"service": "Cognito",
 			"providerPlugin": "awscloudformation",
 			"dependsOn": [],
