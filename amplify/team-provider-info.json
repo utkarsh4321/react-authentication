@@ -1,22 +1,15 @@
 {
     "dev": {
         "awscloudformation": {
-            "AuthRoleName": "amplify-react-auth-dev-113328-authRole",
-            "UnauthRoleArn": "arn:aws:iam::845042252401:role/amplify-react-auth-dev-113328-unauthRole",
-            "AuthRoleArn": "arn:aws:iam::845042252401:role/amplify-react-auth-dev-113328-authRole",
+            "AuthRoleName": "amplify-reat-auths-dev-203659-authRole",
+            "UnauthRoleArn": "arn:aws:iam::845042252401:role/amplify-reat-auths-dev-203659-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::845042252401:role/amplify-reat-auths-dev-203659-authRole",
             "Region": "ap-south-1",
-            "DeploymentBucketName": "amplify-react-auth-dev-113328-deployment",
-            "UnauthRoleName": "amplify-react-auth-dev-113328-unauthRole",
-            "StackName": "amplify-react-auth-dev-113328",
-            "StackId": "arn:aws:cloudformation:ap-south-1:845042252401:stack/amplify-react-auth-dev-113328/d4117030-a94d-11ea-9f2f-02f99c428a3a",
-            "AmplifyAppId": "d3sfss5aerj1ud"
-        },
-        "categories": {
-            "auth": {
-                "reactauth2436ac43": {
-                    "hostedUIProviderCreds": "[{\"ProviderName\":\"Google\",\"client_id\":\"261918966706-89ai7sma1vl3uvoej9j8i2pdto1bplus.apps.googleusercontent.com\",\"client_secret\":\"AleMR2Wb6bC1NvW4hzaH8O7F\"}]"
-                }
-            }
+            "DeploymentBucketName": "amplify-reat-auths-dev-203659-deployment",
+            "UnauthRoleName": "amplify-reat-auths-dev-203659-unauthRole",
+            "StackName": "amplify-reat-auths-dev-203659",
+            "StackId": "arn:aws:cloudformation:ap-south-1:845042252401:stack/amplify-reat-auths-dev-203659/b738e0f0-a999-11ea-9f1b-0207d27cfd0c",
+            "AmplifyAppId": "d1d5cbmftz8fm9"
         }
     }
 }

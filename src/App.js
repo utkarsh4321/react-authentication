@@ -99,6 +99,8 @@ class App extends React.Component {
         case "signIn_failure":
           this.setState({ user: null });
           break;
+        default:
+          console.log("Im inn");
       }
     });
 
