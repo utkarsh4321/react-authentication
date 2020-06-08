@@ -9,13 +9,13 @@ import {
   Input,
   Button,
   notification,
-  Popover,
   Spin,
   Col,
   Row,
   Checkbox,
   Layout,
   Typography,
+  Select,
 } from "antd";
 import { UserOutlined, LockOutlined, PhoneOutlined } from "@ant-design/icons";
 const passwordValidator = require("password-validator");
@@ -110,28 +110,32 @@ class Signup extends Component {
 
   render() {
     const { redirect, loading } = this.state;
-    const title = "Password Policy";
-    const passwordPolicyContent = (
-      <React.Fragment>
-        <h4>Your password should contain: </h4>
-        <ul>
-          <li>Minimum length of 8 characters</li>
-          <li>Numerical characters (0-9)</li>
-          <li>Special characters</li>
-          <li>Uppercase letter</li>
-          <li>Lowercase letter</li>
-        </ul>
-      </React.Fragment>
-    );
-    const phoneTitle = "PhoneNumber Policy";
-    const phoneContent = (
-      <div>
-        <div>Phone number must contain country code</div>
-        <div>Ex- +919034002389</div>
-      </div>
+    const { Option } = Select;
+
+    // const title = "Password Policy";
+    // const passwordPolicyContent = (
+    //   <React.Fragment>
+    //     <h4>Your password should contain: </h4>
+    //     <ul>
+    //       <li>Minimum length of 8 characters</li>
+    //       <li>Numerical characters (0-9)</li>
+    //       <li>Special characters</li>
+    //       <li>Uppercase letter</li>
+    //       <li>Lowercase letter</li>
+    //     </ul>
+    //   </React.Fragment>
+    // );
+    const prefixSelector = (
+      <Form.Item name="prefix" noStyle>
+        <Select style={{ width: 70 }}>
+          <Option value="+91">+91</Option>
+          <Option value="+87">+87</Option>
+        </Select>
+      </Form.Item>
     );
     const onFinish = (values) => {
-      let { email, password, phoneNumber } = values;
+      console.log(values);
+      let { email, password, phoneNumber, prefix } = values;
       this.setState({ loading: true });
 
       Auth.signUp({
@@ -139,7 +143,7 @@ class Signup extends Component {
         password,
         attributes: {
           email: email,
-          phone_number: phoneNumber,
+          phone_number: prefix + phoneNumber,
         },
       })
         .then(() => {
@@ -169,6 +173,7 @@ class Signup extends Component {
     const onFinishFailed = (errorInfo) => {
       console.log("Failed:", errorInfo);
     };
+
     return (
       <Content>
         <Row align="center">
@@ -180,9 +185,11 @@ class Signup extends Component {
                 name="basic"
                 initialValues={{
                   remember: true,
+                  prefix: "+86",
                 }}
                 onFinish={onFinish}
                 onFinishFailed={onFinishFailed}
+                scrollToFirstError
                 // onSubmit={this.onSubmitHandler}
               >
                 <Form.Item
@@ -195,7 +202,11 @@ class Signup extends Component {
                     },
                   ]}
                 >
-                  <Input prefix={<UserOutlined />} placeholder="Email" />
+                  <Input
+                    prefix={<UserOutlined />}
+                    placeholder="Email"
+                    type="email"
+                  />
                 </Form.Item>
                 <Form.Item
                   label="Phone"
@@ -207,17 +218,11 @@ class Signup extends Component {
                     },
                   ]}
                 >
-                  <Popover
-                    content={phoneContent}
-                    title={phoneTitle}
-                    placement="right"
-                    trigger="focus"
-                  >
-                    <Input
-                      prefix={<PhoneOutlined />}
-                      placeholder="Phone number"
-                    />
-                  </Popover>
+                  <Input
+                    prefix={<PhoneOutlined />}
+                    addonBefore={prefixSelector}
+                    placeholder="Phone number"
+                  />
                 </Form.Item>
 
                 <Form.Item
@@ -229,19 +234,19 @@ class Signup extends Component {
                       message: "Please input your password!",
                     },
                   ]}
+                  hasFeedback
                 >
-                  <Popover
+                  {/* <Popover
                     content={passwordPolicyContent}
                     title={title}
                     trigger="focus"
-                  >
-                    <Input.Password
-                      prefix={<LockOutlined />}
-                      type="password"
-                      placeholder="Password"
-                    />
-                    {/* </Popover> */}
-                  </Popover>
+                 >*/}
+                  <Input.Password
+                    prefix={<LockOutlined />}
+                    type="password"
+                    placeholder="Password"
+                  />
+                  {/*</Popover>*/}
                 </Form.Item>
                 <Form.Item
                   label="Confirm password"
@@ -253,12 +258,23 @@ class Signup extends Component {
                       required: true,
                       message: "Please confirm your password!",
                     },
+                    ({ getFieldValue }) => ({
+                      validator(rule, value) {
+                        if (!value || getFieldValue("password") === value) {
+                          return Promise.resolve();
+                        }
+                        return Promise.reject(
+                          "The two passwords that you entered do not match!"
+                        );
+                      },
+                    }),
                   ]}
                 >
                   <Input.Password
                     prefix={<LockOutlined />}
                     placeholder="Confirm Password"
-                    onBlur={this.onConfirmBlur}
+
+                    // onBlur={this.onConfirmBlur}
                   />
                 </Form.Item>
                 <Form.Item
