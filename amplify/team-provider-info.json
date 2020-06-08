@@ -1,22 +1,28 @@
 {
     "web": {
         "awscloudformation": {
-            "AuthRoleName": "amplify-react-authentication-web-181250-authRole",
-            "UnauthRoleArn": "arn:aws:iam::845042252401:role/amplify-react-authentication-web-181250-unauthRole",
-            "AuthRoleArn": "arn:aws:iam::845042252401:role/amplify-react-authentication-web-181250-authRole",
+            "AuthRoleName": "amplify-react-test-auth-web-24749-authRole",
+            "UnauthRoleArn": "arn:aws:iam::845042252401:role/amplify-react-test-auth-web-24749-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::845042252401:role/amplify-react-test-auth-web-24749-authRole",
             "Region": "ap-south-1",
-            "DeploymentBucketName": "amplify-react-authentication-web-181250-deployment",
-            "UnauthRoleName": "amplify-react-authentication-web-181250-unauthRole",
-            "StackName": "amplify-react-authentication-web-181250",
-            "StackId": "arn:aws:cloudformation:ap-south-1:845042252401:stack/amplify-react-authentication-web-181250/77c57a10-a8bc-11ea-ac72-028f38a10716",
-            "AmplifyAppId": "d1r6r6hihub1qk"
-        },
-        "categories": {
-            "auth": {
-                "reactauthenticationa5fa3107": {
-                    "hostedUIProviderCreds": "[{\"ProviderName\":\"Google\",\"client_id\":\"261918966706-89ai7sma1vl3uvoej9j8i2pdto1bplus.apps.googleusercontent.com\",\"client_secret\":\"1aTSSzIB8i6kWoC8NV2m2MOa\"}]"
-                }
-            }
+            "DeploymentBucketName": "amplify-react-test-auth-web-24749-deployment",
+            "UnauthRoleName": "amplify-react-test-auth-web-24749-unauthRole",
+            "StackName": "amplify-react-test-auth-web-24749",
+            "StackId": "arn:aws:cloudformation:ap-south-1:845042252401:stack/amplify-react-test-auth-web-24749/639b31e0-a904-11ea-a8da-02abaae9da36",
+            "AmplifyAppId": "d2r7kslwl7813h"
+        }
+    },
+    "dev": {
+        "awscloudformation": {
+            "AuthRoleName": "amplify-react-test-auth-dev-30518-authRole",
+            "UnauthRoleArn": "arn:aws:iam::845042252401:role/amplify-react-test-auth-dev-30518-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::845042252401:role/amplify-react-test-auth-dev-30518-authRole",
+            "Region": "ap-south-1",
+            "DeploymentBucketName": "amplify-react-test-auth-dev-30518-deployment",
+            "UnauthRoleName": "amplify-react-test-auth-dev-30518-unauthRole",
+            "StackName": "amplify-react-test-auth-dev-30518",
+            "StackId": "arn:aws:cloudformation:ap-south-1:845042252401:stack/amplify-react-test-auth-dev-30518/cab503e0-a906-11ea-9f1b-0207d27cfd0c",
+            "AmplifyAppId": "d2r7kslwl7813h"
         }
     }
 }
