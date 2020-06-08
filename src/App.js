@@ -99,8 +99,6 @@ class App extends React.Component {
         case "signIn_failure":
           this.setState({ user: null });
           break;
-        default:
-          console.log("sign out");
       }
     });
 
@@ -115,7 +113,7 @@ class App extends React.Component {
         this.setState({ user: null });
         delete localStorage["AUTH_USER_TOKEN_KEY"];
         if (!localStorage.getItem("amplify-signin-with-hostedUI")) {
-          this.props.history.push("/");
+          this.props.history.replace("/");
         }
       })
       .catch((e) => {

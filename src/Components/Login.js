@@ -75,7 +75,7 @@ class Login extends Component {
             duration: 1.5,
           });
 
-          history.push("/dashboard");
+          history.replace("/dashboard");
         })
         .catch((err) => {
           notification.error({
