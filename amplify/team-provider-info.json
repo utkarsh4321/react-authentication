@@ -10,6 +10,13 @@
             "StackName": "amplify-react-auth-dev-113328",
             "StackId": "arn:aws:cloudformation:ap-south-1:845042252401:stack/amplify-react-auth-dev-113328/d4117030-a94d-11ea-9f2f-02f99c428a3a",
             "AmplifyAppId": "d3sfss5aerj1ud"
+        },
+        "categories": {
+            "auth": {
+                "reactauth2436ac43": {
+                    "hostedUIProviderCreds": "[{\"ProviderName\":\"Google\",\"client_id\":\"261918966706-89ai7sma1vl3uvoej9j8i2pdto1bplus.apps.googleusercontent.com\",\"client_secret\":\"AleMR2Wb6bC1NvW4hzaH8O7F\"}]"
+                }
+            }
         }
     }
 }
