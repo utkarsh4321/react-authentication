@@ -51,6 +51,7 @@ const checkAuth = () => {
     let oauthRedirect = JSON.parse(
       localStorage.getItem("amplify-signin-with-hostedUI")
     );
+    this.props.history.replace("/dashboard");
     return oauthRedirect;
   }
 };
