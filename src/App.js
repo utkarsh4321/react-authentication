@@ -20,13 +20,12 @@ Amplify.configure(awsconfig);
 // Storage.configure({ level: "private" });
 
 const checkAuth = () => {
-  let refershToken = localStorage.getItem("refreshToken");
   let localToken = localStorage.getItem("AUTH_USER_TOKEN_KEY");
-  if (localToken || refershToken) {
+  if (localToken) {
     if (localToken) {
       let { exp } = Jwt_Decode(localToken);
 
-      if (!localToken || !refershToken) {
+      if (!localToken) {
         return false;
       }
 
@@ -36,18 +35,18 @@ const checkAuth = () => {
 
       return true;
     }
-    if (!localToken) {
-      if (!refershToken) {
-        return false;
-      } else {
-        let { exp } = Jwt_Decode(refershToken);
-        if (exp < new Date().getTime() / 1000) {
-          return false;
-        }
-        return true;
-      }
-      // return auth;
-    }
+    // if (!localToken) {
+    //   if (!refershToken) {
+    //     return false;
+    //   } else {
+    //     let { exp } = Jwt_Decode(refershToken);
+    //     if (exp < new Date().getTime() / 1000) {
+    //       return false;
+    //     }
+    //     return true;
+    //   }
+    //   // return auth;
+    // }
   } else {
     let oauthRedirect = JSON.parse(
       localStorage.getItem("amplify-signin-with-hostedUI")
@@ -113,7 +112,9 @@ class App extends React.Component {
     Auth.signOut()
       .then(() => {
         this.setState({ user: null });
+        localStorage.removeItem("amplify-signin-with-hostedUI");
         delete localStorage["AUTH_USER_TOKEN_KEY"];
+
         if (!localStorage.getItem("amplify-signin-with-hostedUI")) {
           this.props.history.replace("/");
         }
