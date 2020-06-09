@@ -1,6 +1,6 @@
 {
 	"auth": {
-		"ractauthfb652055": {
+		"ractauth2adba9af": {
 			"service": "Cognito",
 			"providerPlugin": "awscloudformation",
 			"dependsOn": [],

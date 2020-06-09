@@ -19,7 +19,7 @@ import Amplify, { Auth, Hub } from "aws-amplify";
 Amplify.configure(awsconfig);
 // Storage.configure({ level: "private" });
 
-const checkAuth = (props) => {
+const checkAuth = () => {
   let localToken = localStorage.getItem("AUTH_USER_TOKEN_KEY");
   if (localToken) {
     if (localToken) {
@@ -50,10 +50,7 @@ const checkAuth = (props) => {
     let oauthRedirect = JSON.parse(
       localStorage.getItem("amplify-signin-with-hostedUI")
     );
-    console.log(props, "These are from checkAuth");
-    if (oauthRedirect) {
-      props.history.replace("/dashboard");
-    }
+
     return oauthRedirect;
   }
 };
@@ -62,7 +59,7 @@ const AuthRoute = ({ component: Component, user, signOutHandler, ...rest }) => (
   <Route
     {...rest}
     render={(props) =>
-      checkAuth(props) ? (
+      checkAuth() ? (
         <Component {...props} user={user} handler={signOutHandler} />
       ) : (
         <Redirect to={{ pathname: "/login" }} />
@@ -90,12 +87,16 @@ class App extends React.Component {
               }
             })
             .catch((err) => console.log(err));
+
+          this.props.history.replace("/dashboard");
           this.setState({ user: data });
           break;
         case "signOut":
           this.setState({ user: null });
           break;
         case "customOAuthState":
+          this.props.history.replace("/dashboard");
+
           this.setState({ customState: data });
           break;
         case "signIn_failure":
